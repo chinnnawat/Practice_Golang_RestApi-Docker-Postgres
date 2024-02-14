@@ -18,6 +18,8 @@ type Dbinstance struct {
 var DB Dbinstance
 
 func ConnectDb() {
+	//  dsn ย่อมาจาก Data source Name คือรูปแบบที่เป็น string ใช้เก็บข้อมูลวิธีการเชื่อมต่อ
+	// ดยปกติจะใช้ในการเชื่อมต่อกับฐานข้อมูล โดย DSN จะรวมถึงข้อมูลสำคัญที่ใช้ในการเชื่อมต่อ เช่นชื่อผู้ใช้ (user), รหัสผ่าน (password), ชื่อฐานข้อมูล (dbname),
 	dsn := fmt.Sprintf(
 		"host=db user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=Asia/Shanghai",
 		os.Getenv("DB_USER"),
@@ -28,7 +30,6 @@ func ConnectDb() {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
-
 	if err != nil {
 		log.Fatal("Failed to connect to database. \n", err)
 		os.Exit(2)
